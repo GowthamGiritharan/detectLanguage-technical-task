@@ -10,4 +10,11 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm run cypress:run
-          
+        env:
+          CYPRESS_API_KEY: ${{ secrets.DETECTLANGUAGE_API_KEY }}
+      - name: Archive test artifacts
+        if: failure() # This will run only if the previous step fails
+        uses: actions/upload-artifact@v3
+        with:
+         name: cypress-screenshots
+         path: cypress/screenshots/          
