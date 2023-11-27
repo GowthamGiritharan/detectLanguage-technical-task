@@ -3,40 +3,30 @@
 
   describe("Language endpoint", () => {
 
+    it("should respond with 200 status when called", () => {
+      cy.request('GET', Cypress.env('language_url')).its('status').should('eq', 200);
+    });
+
+    it("should have valid headers - content type", () => {
+      cy.request('GET', Cypress.env('language_url')).its('headers')
+        .its('content-type').should('include', 'application/json');
+    });
+
     it("should respond with list of 164 supported languages", () => {
-      cy.request({
-        method: "GET",
-        url: Cypress.env("language_url"),
-        headers: { Authorization: "Bearer " + Cypress.env("api_key") },
-        body: {},
-      }).then((response) => {
-        expect(response.status).to.eq(200);
-        const responseBody = response.body;
-        expect(responseBody.length).to.eq(164);
-      });
+      cy.request('GET', Cypress.env('language_url')).its('body')
+        .should('have.length', 164);
     });
   
-    it("should include name and code of supported languages", () => {
-      cy.request({
-        method: "GET",
-        url: Cypress.env("language_url"),
-        headers: { Authorization: "Bearer " + Cypress.env("api_key") },
-        body: {},
-      }).then((response) => {
-        const responseBody = response.body;
-        expect(responseBody.every((item) => item.hasOwnProperty("code"))).to.be.true;
-        expect(responseBody.every((item) => item.hasOwnProperty("name"))).to.be.true;
-      });
+    it("should have a valid JSON schema", () => {
+      cy.request('GET', Cypress.env('language_url')).its('body')
+        .each(value => {
+          expect(value).to.have.all.keys('code', 'name');
+        })
     });
   
     it("Validate name and code values should be string", () => {
-      cy.request({
-        method: "GET",
-        url: Cypress.env("language_url"),
-        headers: { Authorization: "Bearer " + Cypress.env("api_key") },
-        body: {},
-      }).then((response) => {
-        const responseBody = response.body;
+      cy.request('GET', Cypress.env('language_url')).its('body')
+      .then((responseBody) => {
         Object.keys(responseBody).forEach(function (item) {
           const code = responseBody[item].code;
           expect(code).to.be.a('string');
