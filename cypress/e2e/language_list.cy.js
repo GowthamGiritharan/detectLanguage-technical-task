@@ -25,7 +25,7 @@
       }).then((response) => {
         const responseBody = response.body;
         expect(responseBody.every((item) => item.hasOwnProperty("code"))).to.be.true;
-        expect(responseBody.every((item) => item.hasOwnProperty("name"))).to.be.true;
+        expect(responseBody.every((item) => item.hasOwnProperty("notname"))).to.be.true;
       });
     });
   
