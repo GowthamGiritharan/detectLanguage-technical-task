@@ -2,6 +2,8 @@
 
 This project is created as a response to the Technical task. It utilizes and tests various endpoints exteded by https://detectlanguage.com/. Hence no local setup of the test application is required. 
 
+https://github.com/GowthamGiritharan/detectLanguage-technical-task/actions/runs/7009235781/attempts/1#summary-19067243609
+
 
 ## Testing 
 
